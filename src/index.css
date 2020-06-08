@@ -1,0 +1,96 @@
+:root{
+    --background-color-light : #FFFFFF;
+    --background-color-dark :#202126 ;
+    --primary-color-1 : #505394;
+    --primary-color-2 : linear-gradient(315deg, #42378f 0%, #f53844 84%);
+    --text-color-main-light :  #272d2f;
+    --text-color-secondary-light : #d7d7d7;
+    --text-color-main-dark :  #d7d7d7;
+    --text-color-secondary-dark : #272d2f;
+    /* light mode */
+    --background-color: var(--background-color-light);
+    --text-color-main: var(--text-color-main-light);
+    --text-color-secondary:var(--text-color-secondary-light);
+    /*dark mode*/
+    /* uncomment the following for dark mode */
+    /*
+    --background-color: var(--background-color-dark);
+    --text-color-main: var(--text-color-main-dark);
+    --text-color-secondary:var(--text-color-secondary-dark);
+    */
+}
+
+body{
+    padding:30px;
+    background-color: var(--background-color);
+    color:var(--text-color-main);
+}
+
+.heading-color{
+    color: var(--text-color-main) !important
+}
+
+.nav-wrapper{
+    height: 64px;
+    padding-left: 20px;
+    box-shadow: 0 1px 0px 0 rgba(0,0,0,0.2);
+}
+.nav-wrapper:hover{
+    box-shadow: 0 3px 0px 0 rgba(0,0,0,0.2);
+}
+
+.logo-image{
+    height:50px;
+    margin-right: 20px;
+}
+.action-btn{
+    text-transform: none;
+    font-size:17px;
+    background-image: var(--primary-color-2);
+    border-radius: 40px;
+}
+.secondary-action-btn{
+    text-transform: none;
+    font-size:17px;
+    background-color:var(--primary-color-1);
+    border-radius:20px;
+    transition: all 0.5s;
+}
+.secondary-action-btn:hover{
+    font-size: 20px;
+    background-color: var(--primary-color-1);
+    border-radius: 0px;
+    transition: all 0.5s;
+}
+.action-btn:hover{
+    transition: all 0.5s;
+    margin-bottom: 15px;
+    border-radius: 0px;
+}
+
+.dropdown-content li a{
+    background-color: var(--background-color) !important;
+    color:var(--text-color-main) !important;
+}
+
+.dropdown-content li a:hover{
+    transition: all 0.5s;
+    background-color: var(--text-color-main) !important;
+    color:var(--text-color-secondary) !important;
+}
+
+.dropdown-content{
+    min-width: 150px !important;
+}
+.profile-dp img{
+    transition: all 0.75s;
+}
+.profile-dp:hover img{
+    border-width: 3px;
+    border-style: dotted;
+    border-radius:0;
+    border-image: linear-gradient(180deg,var(--text-color-secondary),var(--text-color-main));
+    border-image-slice: 1;
+    padding: 2px;
+    transition: all 0.5s;
+}

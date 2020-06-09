@@ -1,14 +1,15 @@
 import React from 'react'
 import routes from '../../routes'
+import {useHistory} from 'react-router-dom'
 import M from 'materialize-css'
-export default function Navbar() {
+export default function Navbar(props) {
     return (
         <nav className="transparent z-depth-0">
             <div className ="nav-wrapper">
             <img src = "/img/zaio_logo_2.png" className = "circle logo-image" />
                 <a href={routes.content} className ="brand-logo heading-color hide-on-med-and-down"> Learn with Kratos.</a>
-                <ul id="nav-mobile" className="right hide-on-med-and-down">
-                    <li><SignedOutLinks/></li>  
+                <ul id="nav-mobile" className="right ">
+                    <li><SignedOutLinks  /></li>  
                     <li><SignedInLinks/></li>
                 </ul>
             </div>
@@ -16,9 +17,10 @@ export default function Navbar() {
     )
 }
 
-const SignedOutLinks = () => {
+const SignedOutLinks = (props) => {
+    const history = useHistory()
     return(
-        <li><button className = "action-btn btn waves-effect"><span>Sign In</span></button></li>
+        <li><button className = "action-btn btn waves-effect" onClick = {()=>history.push(routes.signin)}><span>Get Started</span></button></li>
     )
 }
 
@@ -39,19 +41,20 @@ class HeaderProfile extends React.Component {
           });
     }
     handleMode = () => {
-        var mode,color1,color2,color3;
+        var mode,color1,color2,color3,color4;
         if (this.state.mode == "light"){
             mode = "dark"
             color1 = 'var(--background-color-dark)';
             color2 = 'var(--text-color-main-dark)';
             color3 = 'var(--text-color-secondary-dark)'
-            
+            color4 = 'var(--background-secondary-dark)';
         }
         else{
             mode = "light"
             color1 = 'var(--background-color-light)';
             color2 = 'var(--text-color-main-light)';
             color3 = 'var(--text-color-secondary-light)';
+            color4 = 'var(--background-secondary-light)';
         }
         this.setState({
             mode
@@ -60,6 +63,7 @@ class HeaderProfile extends React.Component {
         css.setProperty('--background-color',color1);
         css.setProperty('--text-color-main',color2);
         css.setProperty('--text-color-secondary',color3);
+        css.setProperty('--background-secondary',color4);
         console.log(color1,color2,color3)
     }
     render(){

@@ -151,3 +151,6 @@ label.active{
     text-decoration: underline;
     transition:all 0.2s ease-in;
 }
+.text-sync{
+    color:var(--text-color-main) 
+}

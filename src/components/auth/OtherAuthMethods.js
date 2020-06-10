@@ -1,11 +1,15 @@
 import React,{Component} from 'react'
 import Fireapp from '../../config/firebaseConfig'
 import firebase from 'firebase'
+import {useHistory, Redirect} from 'react-router-dom'
+import routes from '../../routes'
 class OtherAuthMethods extends Component {
     state = {
         user:"",
-        errorMessage:""
+        errorMessage:"",
+        redirect:''
     }
+    
     googleSignIn = () =>{
         var provider = new firebase.auth.GoogleAuthProvider();
         Fireapp.auth().signInWithPopup(provider)
@@ -16,7 +20,8 @@ class OtherAuthMethods extends Component {
                 console.log(user)
                 this.setState({
                     user:user.displayName,
-                    errorMessage:""
+                    errorMessage:"",
+                    redirect:routes.content
                 })
                 console.log(user)
                 // Redirect to content
@@ -47,8 +52,10 @@ class OtherAuthMethods extends Component {
             var user = result.user;
             this.setState({
                 user:user.displayName,
-                errorMessage:""
+                errorMessage:"",
+                redirect:routes.content
             })
+            
             
             
             // ...
@@ -70,7 +77,9 @@ class OtherAuthMethods extends Component {
           });
     }
     render(){
-        
+        if(this.state.redirect)
+            return(<Redirect to = {this.state.redirect}/>)
+        else{
         return(
             <div className="row center">
                 <div className="heading">or sign in with</div>
@@ -83,6 +92,6 @@ class OtherAuthMethods extends Component {
                 {this.state.errorMessage?this.state.errorMessage:''}
             </div>
         )
-    }
+    }}
 }
 export default OtherAuthMethods

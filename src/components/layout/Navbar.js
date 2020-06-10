@@ -1,22 +1,46 @@
 import React from 'react'
 import routes from '../../routes'
-import {useHistory} from 'react-router-dom'
+import {useHistory,NavLink} from 'react-router-dom'
+import Fireapp from '../../config/firebaseConfig'
 import M from 'materialize-css'
-export default function Navbar(props) {
+
+export default class Navbar extends React.Component {
+    state = {
+        links : null
+    }
+    componentDidMount(){
+        Fireapp.auth().onAuthStateChanged((user)=>{
+            if (user){
+                this.setState({
+                    links:<SignedInLinks />
+                })
+            }   
+            else{
+                this.setState({
+                    links:<SignedOutLinks  />
+                })
+            } 
+            
+        })
+    }
+    render(){
+    console.log(this.state)
     return (
         <nav className="transparent z-depth-0">
             <div className ="nav-wrapper">
             <img src = "/img/zaio_logo_2.png" className = "circle logo-image" />
                 <a href={routes.content} className ="brand-logo heading-color hide-on-med-and-down"> Learn with Kratos.</a>
                 <ul id="nav-mobile" className="right ">
-                    <li><SignedOutLinks  /></li>  
-                    <li><SignedInLinks/></li>
+                    {
+                        this.state.links
+                    }
+                    
                 </ul>
             </div>
         </nav>
     )
 }
-
+}
 const SignedOutLinks = (props) => {
     const history = useHistory()
     return(
@@ -26,20 +50,27 @@ const SignedOutLinks = (props) => {
 
 const SignedInLinks = () => {
     return (
-        <li><HeaderProfile /></li>
+        <>
+        <li><NavLink to = {routes.content} className ="text-sync">Content</NavLink></li>
+        <li><HeaderProfile/></li>
+        </>
     )
 }
 
 class HeaderProfile extends React.Component {
     state = {
-        mode:"light"
+        mode:"light",
+        user:Fireapp.auth().currentUser
     }
     componentDidMount(){
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.dropdown-trigger');
-            var instances = M.Dropdown.init(elems);
-          });
+        
+
+
+        var elems = document.querySelectorAll('.dropdown-trigger');
+        var instances = M.Dropdown.init(elems);
+        
     }
+    
     handleMode = () => {
         var mode,color1,color2,color3,color4;
         if (this.state.mode == "light"){
@@ -66,16 +97,25 @@ class HeaderProfile extends React.Component {
         css.setProperty('--background-secondary',color4);
         console.log(color1,color2,color3)
     }
+    logout = () => {
+        Fireapp.auth().signOut().then((res)=>{
+            const history = useHistory()
+            history.push(routes.landing)
+        }).catch(()=>{
+            console.log("erorororororro")
+        })
+    }
     render(){
+    const {user} = this.state
     return (
     <>
-        <div className="profile-dp"><img data-target='dropdown1' src = "/img/zaio_logo_2.png" className = "dropdown-trigger circle logo-image" /></div>
+        <div className="profile-dp"><img data-target='dropdown1' src = {(user.photoURL)?(user.photoURL):'img/zaio_logo_2.png'} className = "dropdown-trigger circle logo-image" /></div>
         <ul id='dropdown1' className ='center dropdown-content'>
             <li><a href="#!">X </a></li>
             <li class="divider" tabindex="-1"></li>
             <li><a href="#!" onClick ={this.handleMode}>{this.state.mode} mode</a></li>
             <li class="divider" tabindex="-1"></li>
-            <li><a href="#" className='center'><button href="#!" className = "secondary-action-btn btn">Log out</button></a></li>
+            <li><a href="#" className='center'><button onClick={this.logout} className = "secondary-action-btn btn">Log out</button></a></li>
             
         </ul>
     </>

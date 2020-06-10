@@ -4,9 +4,28 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+
+/*
+Fireapp.firestore()
+
+const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: true
+}
+
+const rrfProps = {
+  firebase:Fireapp,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+}*/
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    
+        <App />
+      
+  
   </React.StrictMode>,
   document.getElementById('root')
 );

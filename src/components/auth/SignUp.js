@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import routes from '../../routes'
+import OtherAuthMethods from './OtherAuthMethods'
 class SignUp extends Component {
     state = {
         email : '',
@@ -64,14 +65,9 @@ function SignUpForm() {
                     </div>
                     </div>
                     
-                    <div className="row center">
-                        <div className="heading">or sign in with</div>
-                    <br/>
-                        <div className = "other-auth-methods">
-                            <span className="auth-logo"><img src = "https://i.pinimg.com/originals/39/21/6d/39216d73519bca962bd4a01f3e8f4a4b.png" className = "circle logo-image" /></span>
-                            <span className="auth-logo"><img src = "https://pngimg.com/uploads/github/github_PNG40.png" className = "circle logo-image" /></span>
-                        </div>
-                    </div>
+                    
+                        <OtherAuthMethods />
+                    
                     
                     <p className="action-text"><a href={routes.signin} className="grey-text">I already have an account!</a></p>
                 </form>
@@ -81,3 +77,4 @@ function SignUpForm() {
 
 
 export default SignUp
+

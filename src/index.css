@@ -154,3 +154,59 @@ label.active{
 .text-sync{
     color:var(--text-color-main) 
 }
+.topic-card{
+    padding-top:8%;
+    border-radius:10px;
+    background-color: var(--background-color);
+    color:var(--text-color-main);
+}
+.topic-wrapper{
+    padding:2%;
+}
+.topic-card:hover{
+    box-shadow: 1px 2px 0px 1px var(--text-color-main) !important;
+}
+.topic-items-wrapper{
+    background-color: #505394;
+    height: 65vh !important;
+    border-radius:20px;
+    padding-bottom:60px !important;
+}
+.scrollable{
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    max-height: 50vh;
+}
+.topics-collection{
+    border:none;
+    background-color: var(--primary-color-1) !important;
+}
+.topics-collection-item{
+    height:3.5em !important;
+    border:none !important;
+    background-color: var(--primary-color-1) !important;
+    opacity:0.5
+}
+.topics-collection-item:hover{
+    color:white !important;
+    background-color: var(--primary-color-3) !important;
+    cursor:pointer;
+}
+.active-item{
+    opacity:1 !important;
+    background-color:var(--primary-color-3) !important;
+
+}
+.video-container{
+  min-height: 50vh !important;
+  position: relative;
+  background-color:#2f2f2f;
+  border-radius: 20px;
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

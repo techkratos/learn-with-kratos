@@ -51,6 +51,7 @@ const SignedOutLinks = (props) => {
 const SignedInLinks = () => {
     return (
         <>
+        <li><NavLink to = {`${routes.topicitem}/23/12`} className ="text-sync">Item</NavLink></li>
         <li><NavLink to = {routes.content} className ="text-sync">Content</NavLink></li>
         <li><HeaderProfile/></li>
         </>

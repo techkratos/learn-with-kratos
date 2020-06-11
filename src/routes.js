@@ -5,6 +5,6 @@ const signup = '/signup'
 
 //restricted routes
 const content = '/content'
-const item = '/topic/:topicid/:itemid'
-
-export default {landing,signin,signup,content,item}
+const topic = '/topic/:topicid/:itemid'
+const topicitem = '/topic'
+export default {landing,signin,signup,content,topic,topicitem}

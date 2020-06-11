@@ -5,6 +5,7 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import LandingPage from './components/pages/LandingPage'
 import Navbar from './components/layout/Navbar'
+import Topic from './components/pages/Topic'
 import Content from './components/pages/Content'
 import PrivateRoute from './components/layout/PrivateRoute'
 function App() {
@@ -16,6 +17,8 @@ function App() {
         <Route path = {routes.signin} component = {SignIn} />
         <Route path = {routes.signup} component = {SignUp} />
         <PrivateRoute path = {routes.content} component = {Content} />
+
+        <PrivateRoute path = {routes.topic} component = {Topic} />
       </Switch>
     </BrowserRouter>
   );

@@ -25,7 +25,7 @@
 }
 
 body{
-    padding:30px;
+    padding-top:20px;
     background-color: var(--background-color);
     color:var(--text-color-main);
 }
@@ -167,23 +167,29 @@ label.active{
     box-shadow: 1px 2px 0px 1px var(--text-color-main) !important;
 }
 .topic-items-wrapper{
+    padding-left:20px;
     background-color: #505394;
-    height: 65vh !important;
-    border-radius:20px;
-    padding-bottom:60px !important;
+    border-bottom-left-radius:20px;
+    border-bottom-right-radius: 20px;
+    padding-block-end: 20px!important;;
+    
+}
+.topic-title-vid{
+    margin-top: 0px !important;
+    display:inline-block;
 }
 .scrollable{
     overflow-y: scroll;
     scroll-behavior: smooth;
-    max-height: 50vh;
 }
 .topics-collection{
     border:none;
+    max-height: 70vh;
     background-color: var(--primary-color-1) !important;
 }
 .topics-collection-item{
-    height:3.5em !important;
     border:none !important;
+    height:60px;
     background-color: var(--primary-color-1) !important;
     opacity:0.5
 }
@@ -198,7 +204,7 @@ label.active{
 
 }
 .video-container{
-  min-height: 50vh !important;
+  
   position: relative;
   background-color:#2f2f2f;
   border-radius: 20px;
@@ -210,3 +216,30 @@ label.active{
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
+.blue-underline{
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--primary-color-1)
+}
+.collapsible-content{
+    padding: 0 18px;
+    overflow: hidden;
+    max-height: 0;
+    transition: all 0.2s ease-out;
+}
+
+.collapse-button:hover{
+    cursor: pointer;
+    background-color:#2f2f2f;  
+    border-radius:120px !important;
+}
+.main-comment{
+    border-bottom:1px solid var(--text-color-main);
+}
+.reply{
+    padding:5px
+}
+.input-field-comment input[type=text]:focus {
+    border-bottom: 1px solid var(--primary-color-1) !important;
+    box-shadow: 0 1px 0 0 var(--primary-color-1) !important;
+  }

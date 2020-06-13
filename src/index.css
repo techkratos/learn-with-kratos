@@ -57,7 +57,7 @@ body{
 .secondary-action-btn{
     text-transform: none;
     font-size:17px;
-    background-color:var(--primary-color-1);
+    background-color:var(--primary-color-1) !important;
     border-radius:20px;
     transition: all 0.5s;
 }
@@ -234,12 +234,123 @@ label.active{
     border-radius:120px !important;
 }
 .main-comment{
+    padding-bottom:10px;
     border-bottom:1px solid var(--text-color-main);
 }
-.reply{
-    padding:5px
+.reply-ui{
+    padding:5px !important;
+}
+.input-field-comment input{
+    color:var(--text-color-main)
+}
+.input-field-comment input::placeholder{
+    color:grey;
+    opacity:1;
 }
 .input-field-comment input[type=text]:focus {
     border-bottom: 1px solid var(--primary-color-1) !important;
     box-shadow: 0 1px 0 0 var(--primary-color-1) !important;
   }
+
+a:hover{
+    cursor: pointer;
+}
+.text-sync-primary{
+    color:var(--primary-color-1);
+}
+.topic-comments{
+    padding-left:20px !important;
+}
+.topic-comments .row{
+    margin-left:auto !important
+}
+.remove-extra-margin  {
+    margin-bottom:0px  !important; 
+}
+.card{
+    background-color:var(--background-color) !important;
+}
+.your-comment{
+    padding:30px;
+    border:1px solid var(--primary-color-1); 
+}
+
+.submission-card{
+    background-color: #2f2f2f !important;
+    border-radius: 20px !important;
+    margin:0 !important;
+}
+
+.container .progressbar-container {
+    position: relative ;
+    background-color: #2f2f2f;
+    width: 100%;
+    height: 20px;
+    border: 1px solid var(--primary-color-3);
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: h 3500ms infinite ease-in-out;
+  }
+  .container .progressbar-container .progressbar-complete {
+    position: absolute;
+    left: 0;
+    top: 0px;
+    height: 100%;
+    background-color: var(--primary-color-1);
+    
+    animation: g 3500ms infinite ease-in-out;
+    z-index: 2;
+  }
+  .container .progressbar-container .progress-content {
+    color:white;
+    font-weight: bold;
+    z-index: 2;
+  }
+  
+  
+  @keyframes g {
+    0% {
+      background-color: var(--primary-color-1);
+        
+    }
+    50% {
+      background-color: var(--primary-color-3);
+      
+    }
+    100% {
+      background-color: var(--primary-color-1);
+      
+    }
+  }
+  @keyframes h{
+    0% {
+      border-color: var(--primary-color-1);
+        
+    }
+    50% {
+      border-color: var(--primary-color-3);
+      
+    }
+    100% {
+      border-color: var(--primary-color-1);
+      
+    }
+  }
+  
+.send-button:hover i{
+    color: var(--primary-color-1);
+}
+.private-comment.input-field input:focus{
+    padding-left: 10px;
+    box-shadow: 0px 2px 0px 0px var(--primary-color-1) !important;
+    
+}
+.private-comment.input-field input{
+    color:white !important;
+}
+.private-comment.input-field input::placeholder{
+    color:grey !important;
+}

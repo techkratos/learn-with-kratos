@@ -3,7 +3,9 @@ import { Sidenav } from 'materialize-css'
 import M from 'materialize-css'
 import { NavLink } from 'react-router-dom'
 import routes from '../../routes'
-
+import Comments from '../elements/Comments'
+import ProgressBar from '../elements/ProgressBar'
+import Fireapp from '../../config/firebaseConfig'
 export default class Topic extends Component {
     state = {
         active_id:this.props.match.params.itemid,
@@ -50,7 +52,8 @@ export default class Topic extends Component {
                 <br/>
                 <div className="row topic-details">
                     <div className="row">
-                    <h4 className = " white-text topic-title-vid">Learn react redux as you go<a onClick={(e) => this.collapse(e,'topic-description')} className="collapse-button"><i className="white-text material-icons">expand_more</i></a></h4>
+                    <h4 className = " white-text topic-title-vid">Learn react redux as you go
+                        <a onClick={(e) => this.collapse(e,'topic-description')} className="collapse-button"><i className="white-text material-icons">expand_more</i></a></h4>
                     </div>
                     <div id = 'topic-description' className="row collapsible-content white-text">
                        <p>hello bros its me again</p>
@@ -60,7 +63,7 @@ export default class Topic extends Component {
                 <div className="row">
                 <div className="col s12 m8">
                     <div className="row">
-                    <TopicItem id={this.state.active_id} collapse = {this.collapse} /></div>
+                    <TopicItem type="video" id={this.state.active_id} collapse = {this.collapse} /></div>
                   
                 </div>
                     <div className="col s8 push-s2 push-m0 m4">
@@ -70,7 +73,7 @@ export default class Topic extends Component {
                 </div>
                 
                 <div className="row">
-                    <div className="col s12 m8">
+                    <div className="col s12 m10">
                         <Comments count = {4} list = {[{author:'gary',timestamp:'10:00am',content:'hey nice course',photoURL:'zaio_logo_2.png',replies:[
                             {author:'hary',timestamp:'11:00am',content:'hey nice course',photoURL:'zaio_logo_2.png'},
                             {author:'george',timestamp:'11:00am',content:'hey i like it',photoURL:'zaio_logo_2.png'},
@@ -86,83 +89,31 @@ export default class Topic extends Component {
         )
     }
 }
-class Comments extends Component{
-    showReplies = (id) => {
-        var target = document.getElementById(`reply-${id}`)
-        target.classList.toggle("hide");
-    }
-    render(){
-        return(
-        <div className="text-sync topic-comments col s12">
-        
-        <h6 className="blue-underline">{this.props.count} Comments</h6><br/>
-        <div className="input-field-comment">
-            <input type="text" placeholder = "Post a public comment.."></input>
-        </div>
-                {
-                    this.props.list.map((comment,idx) => {
-                        return(
-                            
-                           <div className="row main-comment">
-                                <Comment {...comment} />
-                                <div><a onClick = {(e)=>{this.showReplies(idx)}}>show replies</a></div>
-                                <div id={`reply-${idx}`} className={`col hide`}>
-                                    {
-                                        comment.replies.map((reply)=>{
-                                            return(
-                                                <div className="reply">
-                                                <Comment {...reply}/>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                           </div>      
-                        )
-                    })
-                }
-        </div>
-        )}
-}
 
-class Comment extends Component{
-    state = {
-        reply:"hide"
-    }
-    allowReply = () => {
-        this.setState({
-            reply:"",
-        })
-    }
-    removeReply = () => {
-        this.setState({
-            reply:"hide"
-        })
-    }
-    render(){
-        return(
-        <div className="comment">
-            <span></span>
-            <span><b>{this.props.author}</b> said @{this.props.timestamp}</span><br/>
-            <span className="comment-content">{this.props.content}</span> 
-            <span><a onClick= {this.allowReply}>REPLY</a></span>
-            <div className={`${this.state.reply} input-field-comment`}>
-                
-                <input type="text" placeholder = "Post a public comment.."></input>
-                <a className = "secondary-content prefix" onClick= {this.removeReply}>X</a>
-            </div>
 
-        </div>)
-    }
-}
 
 class TopicItem extends Component {
     render(){
+        const {type} = this.props
         return(
         <>
-        <Video />
+            {
+                (type=="video")?<Video />:''
+            }
+            <TopicItemDescription collapse = {this.props.collapse}/>
+            {
+                (type=="deliverable")?<Deliverable/>:''
+            }
+        </>
+        )
+    }
+}
+
+class TopicItemDescription extends Component{
+    render(){
+        return(
         <div className="row">
-                <div className="white-text topic-description col m8 s12">
+                <div className="white-text topic-description col s12">
                 <div className="row">
                     <h5 className="blue-underline">Fundamentals of react redux title {this.props.id} he <a onClick={(e) => this.props.collapse(e,'video-description')} className="secondary-content collapse-button"><i className="white-text material-icons">expand_more</i></a></h5><br/>
                     </div>
@@ -171,8 +122,7 @@ class TopicItem extends Component {
                     </div>
                 </div>
                 </div> 
-        </>
-        )
+        ) 
     }
 }
 
@@ -183,6 +133,183 @@ class Video extends Component{
         <video class="responsive-video vertical-center" width="100%" controls>
             <source src="movie.mp4" type="video/mp4" />
         </video></div>
+        )
+    }
+}
+
+class Deliverable extends Component{
+    render(){
+        return(
+            
+           <div className="deliverable-container">
+               <SubmissionForm />
+               <PrivateComment />
+           </div>     
+        )
+    }
+}
+
+class PrivateComment extends Component{
+    state = {
+        uploading:false,
+        uploadfile:null,
+        filename:'',
+        progress:0,
+        uploadTask:null,
+        done:false
+    }
+    render(){
+        return(
+            <div class="row">
+            <div class="col s11 push-m3 m6">
+            <form>
+            <div class="card submission-card">
+                <div class="card-content white-text">
+                <span class="card-title blue-underline">Private Comment</span>
+                    <div className="row">   
+                    <div class="col s10 input-field private-comment white-text">
+                                <input placeholder="write a private comment" id = "comment_priv" onChange = {this.onChange} type="text"/>
+                               
+                            </div>
+                            <br/>
+                    <div className="col s1 send-button">
+                       <a className="white-text"><i class="material-icons small">send</i></a> 
+                    </div>
+                    </div>
+                    </div>
+            </div>
+            </form>
+        </div>
+        </div>
+    )
+    }
+}
+
+class SubmissionForm extends Component{
+    state = {
+        uploading:false,
+        uploadfile:null,
+        filename:'',
+        progress:0,
+        uploadTask:null,
+        done:false
+    }
+    onChange = (e) => {
+        console.log("HERE")
+        var file = e.target.files[0]
+        console.log("HERE")
+        if (file){
+            const storage = Fireapp.storage();  
+           
+            const uploadTask = storage.ref(`submissions/${file.name}`).put(file);
+            this.setState({
+                filename:file.name,
+                uploading:true,
+                uploadTask:uploadTask
+            })
+            
+            
+            uploadTask.on(
+            "state_changed",
+            snapshot => {
+                const progress = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                this.setState({ progress });
+            },
+            error => {
+                console.log(error);
+            },
+            () => {
+                
+               
+                storage
+                .ref("submissions")
+                .child(file.name)
+                .getDownloadURL()
+                .then(url => {
+                    this.setState({
+                        uploading:false,
+                        uploadfile:url
+                    });
+                });
+            }
+            );
+        }
+    }
+    onSubmit = () => {
+        const db = Fireapp.firestore()
+        db.collection('submissions').add({
+            'submitted_by':Fireapp.auth().currentUser.displayName,
+            'file_url':this.state.uploadfile
+        }).then((ref)=>{
+            this.setState({
+                done:true
+            })
+            console.log("updated",this.state)
+        }).catch((err)=>console.log('error'))
+    };
+    cancelUpload = () =>{
+        this.state.uploadTask.cancel()
+        this.setState({
+            uploading:false,
+            uploadfile:null,
+            uploadTask:null
+        })
+    }
+    render(){
+        return(
+            <div class="row">
+                <div class="col s11 push-m3 m6">
+                <form>
+                <div class="card submission-card">
+                    <div class="card-content white-text">
+                    <span class="card-title blue-underline">Your work</span>
+                    
+                    
+                        <div className="row">
+                            <div class="file-field input-field">
+
+                                <div class="col s12 input-field secondary-action-btn btn">
+                                    Add your deliverable
+                                    <input id = "assignment" onChange = {this.onChange} type="file"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div className="center filename">
+                                    <span>
+                                        {(this.state.uploading)?'Uploading..':''}
+                                        {(this.state.uploadfile)?<i class="material-icons">check</i>:''}
+                                        {this.state.filename}
+                                    </span>
+                                </div>
+                    
+                        </div>
+                    {((this.state.uploading)?<div className="row">
+                        <div className="col s12">
+                        <ProgressBar progress={this.state.progress}/></div>
+                        <div className="center cancel-button"><a onClick={()=>{this.cancelUpload()}}>Cancel</a></div>
+                        </div>
+                        :'')}
+                    
+                {   (this.state.uploadfile)?
+                        <div class="center card-action">
+                            <a onClick={this.onSubmit} className="btn darken-3 green">Mark as completed</a>
+                            {
+                            (this.state.done)?<i class="white-text material-icons">check</i>:''
+                            }
+                        </div>
+                    :<div class="center card-action">
+                        <a  className="disabled btn darken-3 green">Mark as completed</a>
+                        
+                    </div>
+                }
+                
+                </div>
+                </form>
+            </div>
+            </div>
         )
     }
 }

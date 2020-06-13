@@ -6,12 +6,34 @@ import routes from '../../routes'
 import Comments from '../elements/Comments'
 import ProgressBar from '../elements/ProgressBar'
 import Fireapp from '../../config/firebaseConfig'
+
+
 export default class Topic extends Component {
-    state = {
-        active_id:this.props.match.params.itemid,
-        items:[1,2,3,4,5,6,7,8,9,10,11,12],
+    constructor(){
+        const db = Fireapp.firestore()
+        db.collection("topics").doc(this.state.topicid).get().then((doc)=>{
+            var x = doc.data()
+            this.state = {
+                active_id:this.props.match.params.itemid,
+                topicid:this.props.match.params.topicid,
+                topic:x,
+                items:x.items,
+                loading:true,
+                activeItem:comments
+            } 
+            var items = [];
+            var i;
+            
+            
+
+        }).catch((err)=>{
+            console.log(err)    
+        })
     }
+        
     componentDidMount(){
+        const db = Fireapp.firestore()
+        
         
     }
     activate_id = (id) => {
@@ -40,7 +62,6 @@ export default class Topic extends Component {
                
             }
         }
-        
     }
     addComment = () => {
         return;
@@ -151,12 +172,30 @@ class Deliverable extends Component{
 
 class PrivateComment extends Component{
     state = {
-        uploading:false,
-        uploadfile:null,
-        filename:'',
-        progress:0,
-        uploadTask:null,
-        done:false
+        content:''
+    }
+    onChange = (e) => {
+        this.setState({
+            content:e.target.value
+        })
+    }
+    sendComment = () => {
+        var email = Fireapp.auth().currentUser.email
+        const db = Fireapp.firestore()
+        db.collection("privateComments").add({
+            'email':email,
+            'comment':this.state.content
+        }).then((ref)=>{
+            this.setState({
+                content:'',
+            })
+            var toastHTML = '<span>Private comment sent  </span><i class="material-icons">check</i>';
+            M.toast({html: toastHTML});
+        
+        }).catch((err)=>{
+            var toastHTML = '<span>Sending private content failed </span><i class="material-icons">X</i>';
+            M.toast({html: toastHTML});
+        })
     }
     render(){
         return(
@@ -168,12 +207,12 @@ class PrivateComment extends Component{
                 <span class="card-title blue-underline">Private Comment</span>
                     <div className="row">   
                     <div class="col s10 input-field private-comment white-text">
-                                <input placeholder="write a private comment" id = "comment_priv" onChange = {this.onChange} type="text"/>
+                                <input onChange={this.onChange} placeholder="write a private comment" id = "comment_priv" onChange = {this.onChange} type="text"/>
                                
                             </div>
                             <br/>
                     <div className="col s1 send-button">
-                       <a className="white-text"><i class="material-icons small">send</i></a> 
+                       <a onClick={this.sendComment} className="white-text"><i class="material-icons small">send</i></a> 
                     </div>
                     </div>
                     </div>

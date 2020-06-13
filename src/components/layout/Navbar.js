@@ -51,7 +51,7 @@ const SignedOutLinks = (props) => {
 const SignedInLinks = () => {
     return (
         <>
-        <li><NavLink to = {`${routes.topicitem}/23/12`} className ="text-sync">Item</NavLink></li>
+        
         <li><NavLink to = {routes.content} className ="text-sync">Content</NavLink></li>
         <li><HeaderProfile/></li>
         </>
@@ -110,7 +110,7 @@ class HeaderProfile extends React.Component {
     const {user} = this.state
     return (
     <>
-        <div className="profile-dp"><img data-target='dropdown1' src = {(user.photoURL)?(user.photoURL):'img/zaio_logo_2.png'} className = "dropdown-trigger circle logo-image" /></div>
+        <div className="profile-dp"><img data-target='dropdown1' src = {(user.photoURL)?(user.photoURL):'img/generic_dp.png'} className = "dropdown-trigger circle logo-image" /></div>
         <ul id='dropdown1' className ='center dropdown-content'>
             <li><a href="#!">X </a></li>
             <li class="divider" tabindex="-1"></li>

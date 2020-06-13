@@ -6,7 +6,8 @@ import routes from '../../routes'
 class Content extends React.Component{
     state={
         loading:true,
-        topics:[]
+        topics:[],
+        search:''
     }
     componentDidMount(){
         const db = Fireapp.firestore()
@@ -27,6 +28,11 @@ class Content extends React.Component{
             console.log(err)    
         })
     }
+    handleChange = (e) => {
+        this.setState({
+            search:e.target.value
+        })
+    }
     render(){
         if(this.state.loading){
             return(<Preloader />)
@@ -34,11 +40,11 @@ class Content extends React.Component{
         else{
         return(
             <div>
-                welcome to content
+                
                 <div className="row">
                 <div className="search-bar col push-m4 m3 s8 push-s2">
                     <div className="input-field">
-                    <input type="text" placeholder = "search.."/>
+                    <input onChange={this.handleChange} value = {this.state.search} type="text" placeholder = "search.."/>
                     
                     </div>
                 </div>
@@ -46,7 +52,11 @@ class Content extends React.Component{
                 <div className="topic-wrapper">
                 <div className="row">
                     {this.state.topics.map((topic)=>{
-                        return(<Topic {...topic} />)
+                        if(topic.title.toUpperCase().indexOf(this.state.search.toUpperCase()) > -1 ){
+                            return(<Topic {...topic} />)}
+                        else{
+                            return
+                        }
                     })}
                     
                 </div>

@@ -9,30 +9,14 @@ import Fireapp from '../../config/firebaseConfig'
 
 
 export default class Topic extends Component {
-    constructor(){
-        const db = Fireapp.firestore()
-        db.collection("topics").doc(this.state.topicid).get().then((doc)=>{
-            var x = doc.data()
-            this.state = {
-                active_id:this.props.match.params.itemid,
-                topicid:this.props.match.params.topicid,
-                topic:x,
-                items:x.items,
-                loading:true,
-                activeItem:comments
-            } 
-            var items = [];
-            var i;
-            
-            
-
-        }).catch((err)=>{
-            console.log(err)    
-        })
+    state = {
+        active_id:this.props.match.params.itemid,
+        topicid:this.props.match.params.topicid,
+        topic:{},
+        items:[],
+        loading:true,
     }
-        
     componentDidMount(){
-        const db = Fireapp.firestore()
         
         
     }
